@@ -1,0 +1,7 @@
+# (uncomment to add a dependency)
+dependencies:
+ - name: geogebra
+   version: 1.0.0
+   src: lib/geogebra-1.0.0/
+   script:
+   - deployggb.js
