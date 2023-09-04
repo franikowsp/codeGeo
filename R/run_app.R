@@ -223,7 +223,6 @@ run_app <- function(.path, .coder) {
         if (TRUE) {
           assign(.coder, reactiveCoded$data)
           save(list = .coder, file = ..file)
-          reactiveCoded$data
         }
       )
     }, once = F)
