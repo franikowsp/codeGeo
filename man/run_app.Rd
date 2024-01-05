@@ -4,7 +4,7 @@
 \alias{run_app}
 \title{GeoGebra Coding Environment}
 \usage{
-run_app(.path, .coder)
+run_app(.path, .coder, .type = "geogebra")
 }
 \description{
 Runs GeoGebra coding applet.

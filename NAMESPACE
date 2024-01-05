@@ -2,7 +2,10 @@
 
 export(geogebra)
 export(geogebraOutput)
+export(longText)
+export(longTextOutput)
 export(renderGeogebra)
+export(renderLongText)
 export(run_app)
 import(htmlwidgets)
 import(keys)

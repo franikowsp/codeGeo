@@ -8,7 +8,7 @@
 #' @import keys
 #'
 #' @export
-run_app <- function(.path, .coder) {
+run_app <- function(.path, .coder, .type = "geogebra") {
   # Load data anonymously (requires to setup the coder file)
   # To provide fail safety, there should be an option to fall back on a default file
   ..file <- paste0(.path, .coder, ".RData")
@@ -20,6 +20,12 @@ run_app <- function(.path, .coder) {
   ..unitnames <- names(.data)
   ..selection <- .data[[..unitnames[1]]]
   ..n <- length(..selection[, "value"])
+
+  if (.type == "geogebra") {
+    typeOutput <- geogebraOutput(output_id = "geo", height = "700px", width = "700px")
+  } else if (.type == "longText") {
+    typeOutput <- longTextOutput(output_id = "text", height = "700px", width = "700px")
+  }
 
   ui <-
     miniUI::miniPage(
@@ -37,9 +43,9 @@ run_app <- function(.path, .coder) {
       miniUI::miniTabstripPanel(
         miniUI::miniTabPanel("GeoGebra", icon = shiny::icon("sliders"),
                              miniUI::miniContentPanel(
-                               fillCol(
+                               shiny::fillCol(
                                  flex = c(0.2, 1),
-                                 fillRow(
+                                 shiny::fillRow(
                                    shiny::div(
                                      shiny::tags$b("Status"),
                                      shiny::uiOutput("status"),
@@ -76,7 +82,7 @@ run_app <- function(.path, .coder) {
                                    # Kommentarfunktion (offenes Feld darunter!)
                                    # Richtig, mit Toleranz richtig,
                                  ),
-                                 geogebraOutput(output_id = "geo", height = "700px", width = "700px")
+                                 typeOutput
                                )
                              )
         )
@@ -94,6 +100,13 @@ run_app <- function(.path, .coder) {
       ..geogebra <- reactiveCoded$data[[input$unitname]][input$subject, "value"]
 
       geogebra(..geogebra)
+    })
+
+    # LongText Renderer
+    output$text <- renderLongText({
+      ..longText <- reactiveCoded$data[[input$unitname]][input$subject, "value"]
+
+      longText(..longText)
     })
 
     # Output
